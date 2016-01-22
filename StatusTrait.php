@@ -24,7 +24,7 @@ trait StatusTrait {
 
     	foreach($statuses as $status)
         {
-    		$query = $query->whereRaw(config('status.column') . " & {$status} != 0");
+    		$query = $query->whereRaw(config('status.column', 'status') . " & {$status} != 0");
     	}
 
         return $query;
@@ -42,7 +42,7 @@ trait StatusTrait {
 
     	foreach($statuses as $status)
         {
-    		$query = $query->whereRaw(config('status.column') . " & {$status} = 0");
+    		$query = $query->whereRaw(config('status.column', 'status') . " & {$status} = 0");
     	}
 
         return $query;
