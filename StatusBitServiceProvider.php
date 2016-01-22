@@ -5,7 +5,7 @@ namespace Baytek\LaravelStatusBit;
 use Event;
 use Illuminate\Support\ServiceProvider;
 
-class EventServiceProvider extends ServiceProvider {
+class StatusBitServiceProvider extends ServiceProvider {
 
     /**
      * Perform post-registration booting of services.
