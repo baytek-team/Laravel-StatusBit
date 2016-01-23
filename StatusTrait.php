@@ -17,14 +17,25 @@ trait StatusTrait {
      * @param Integer $statuses Statuses
 	 * @return Builder return the builder back
 	 */
-	public function scopeIncludeStatus($query, $statuses)
+    // Possible statuses argument
+    // $statuses = 2; //If the array is not indexed with include or exclude keys, assume include
+    // $statuses = [2, 4];
+    // $statuses = ['exclude' => [2, 4]];
+    // $statuses = ['include' => [2, 4]];
+
+    //Should be renamed to scopeWithStatus
+	public function scopeStatus($query, $statuses)
     {
-    	if(!is_array($statuses))
+        if(!is_array($statuses)) {
             $statuses = [$statuses];
+        }
 
     	foreach($statuses as $status)
         {
-    		$query = $query->whereRaw(config('status.column', 'status') . " & {$status} != 0");
+            $equation = config('status.column', 'status') . " & $status";
+            $operation = '!=';
+
+    		$query = $query->where($equation, $operation, 0);
     	}
 
         return $query;
@@ -35,6 +46,12 @@ trait StatusTrait {
      * @param Integer $statuses Statuses
      * @return Builder return the builder back
      */
+    // Interesting status array
+    // $statuses = ['on' => [2, 4]];
+    // $statuses = ['off' => [2, 4]];
+    // $statuses = ['flip' => [2, 4]];
+
+    // Method should be renamed to setStatus
 	public function scopeExcludeStatus($query, $statuses)
     {
         if(!is_array($statuses))
