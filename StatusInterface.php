@@ -31,8 +31,8 @@ interface StatusInterface {
     // Should be defined in each model that contains a status trait so it can be specific to the model.
     // TODO: Write a protected method of models adding statuses so they don't use the system reserved statuses
 
-	public function scopeIncludeStatus($query, $status);
-	public function scopeExcludeStatus($query, $status);
+	// public function scopeIncludeStatus($query, $status);
+	// public function scopeExcludeStatus($query, $status);
 
 }
 
