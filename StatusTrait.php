@@ -12,58 +12,57 @@
 namespace Baytek\LaravelStatusBit;
 
 trait StatusTrait {
-	/**
-     * @param Builder $query Elequont query builder
-     * @param Integer $statuses Statuses
-	 * @return Builder return the builder back
-	 */
-    // Possible statuses argument
-    // $statuses = 2; //If the array is not indexed with include or exclude keys, assume include
-    // $statuses = [2, 4];
-    // $statuses = ['exclude' => [2, 4]];
-    // $statuses = ['include' => [2, 4]];
-
-    //Should be renamed to scopeWithStatus
-	public function scopeStatus($query, $statuses)
-    {
-        if(!is_array($statuses)) {
-            $statuses = [$statuses];
-        }
-
-    	foreach($statuses as $status)
-        {
-            $equation = config('status.column', 'status') . " & $status";
-            $operation = '!=';
-
-    		$query = $query->where($equation, $operation, 0);
-    	}
-
-        return $query;
-    }
-
     /**
      * @param Builder $query Elequont query builder
      * @param Integer $statuses Statuses
      * @return Builder return the builder back
+     *
+     * Possible statuses arguments -- I've now tested and all these are possible
+     *  $statuses = 2; //If the array is not indexed with include or exclude keys, assume include
+     *  $statuses = [2, 4];
+     *  $statuses = ['exclude' => [2, 4]];
+     *  $statuses = ['include' => [2, 4]];
+     *  $statuses = ['include' => [
+     *      Customer::FEATURED,
+     *      Customer::ARCHIVED
+     *  ],
+     *  'exclude' => [
+     *      Customer::DISABLED,
+     *      Customer::DELETED
+     *  ]];
      */
-    // Interesting status array
-    // $statuses = ['on' => [2, 4]];
-    // $statuses = ['off' => [2, 4]];
-    // $statuses = ['flip' => [2, 4]];
-
-    // Method should be renamed to setStatus
-	public function scopeExcludeStatus($query, $statuses)
+    public function scopeStatus($query, $statuses)
     {
-        if(!is_array($statuses))
-            $statuses = [$statuses];
+        $operation = '!='; // Default we include only
 
-    	foreach($statuses as $status)
+        // Check if the arguments have been passed straight up
+        if(count(func_get_args()) > 2) {
+            $statuses = func_get_args();
+            array_shift($statuses);
+        }
+
+        foreach((array)$statuses as $key => $status)
         {
-    		$query = $query->whereRaw(config('status.column', 'status') . " & {$status} = 0");
-    	}
+            // Only keep the keys we find relevant
+            if(is_array($status))
+            {
+                // Sum the bits
+                $status = array_sum($status);
+
+                // Change the operator when exclusion
+                if($key == 'exclude')
+                {
+                    $operation = '=';
+                }
+            }
+
+            // SQL equation string
+            $equation = config('status.column', 'status') . " & $status";
+
+            // Query Builder
+            $query = $query->whereRaw($equation . $operation . 0);
+        }
 
         return $query;
     }
 }
-
-
