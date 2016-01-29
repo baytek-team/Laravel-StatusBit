@@ -11,7 +11,7 @@
 
 namespace Baytek\LaravelStatusBit;
 
-trait StatusTrait {
+trait Statusable {
     /**
      * @param Builder $query Elequont query builder
      * @param Integer $statuses Statuses
