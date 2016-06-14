@@ -65,4 +65,15 @@ trait Statusable {
 
         return $query;
     }
+
+    /**
+     * Check if the current model has a status set. Does a bitwise check with the status value supplied.
+     * @param  int      $status   The status to check for. Up to 2^32
+     * @return boolean            Whether the status is set or not.
+     */
+    public function hasStatus($status)
+    {
+        return ($this->status & $status) == $status;
+    }
+
 }
