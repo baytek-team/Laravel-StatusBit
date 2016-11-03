@@ -80,13 +80,13 @@ trait Statusable
 
     public function onBit($status)
     {
-        $this->status = $this->status | $status;
+        $this->status |= $status;
         return $this;
     }
 
-    public function offBit()
+    public function offBit($status)
     {
-        $this->status = $this->status & ~$status;
+        $this->status &= ~$status;
         return $this;
     }
 
