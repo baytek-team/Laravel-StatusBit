@@ -11,7 +11,18 @@
 
 namespace Baytek\LaravelStatusBit;
 
-trait Statusable {
+trait Statusable
+{
+    public static $statuses = [
+        0 => 'Zero Status',
+        self::ARCHIVED => 'Archived',
+        self::DISABLED => 'Disabled',
+        self::DELETED => 'Deleted',
+        self::REMOVED => 'Removed',
+        self::DRAFT => 'Draft',
+        self::FEATURED => 'Featured',
+    ];
+
     /**
      * @param Builder $query Elequont query builder
      * @param Integer $statuses Statuses
@@ -64,6 +75,24 @@ trait Statusable {
         }
 
         return $query;
+    }
+
+
+    public function onBit($status)
+    {
+        $this->status = $this->status | $status;
+        return $this;
+    }
+
+    public function offBit()
+    {
+        $this->status = $this->status & ~$status;
+        return $this;
+    }
+
+    public function flipBit()
+    {
+
     }
 
     /**
