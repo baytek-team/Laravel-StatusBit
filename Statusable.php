@@ -25,6 +25,19 @@ trait Statusable
         self::FEATURED => 'Featured',
     ];
 
+    public function __construct($attributes = [])
+    {
+        if(property_exists($this, 'statuses')) {
+            $this::$statuses = collect(static::$statuses);
+        }
+        else {
+            $this::$statuses = collect(parent::$statuses)
+                ->union(collect(static::$statuses));
+        }
+
+        parent::__construct($attributes);
+    }
+
     /**
      * @param Builder $query Elequont query builder
      * @param Integer $statuses Statuses
@@ -78,7 +91,6 @@ trait Statusable
 
         return $query;
     }
-
 
     public function onBit($status)
     {
