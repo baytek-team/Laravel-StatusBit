@@ -11,6 +11,8 @@
 
 namespace Baytek\LaravelStatusBit;
 
+// use StatusCollection;
+
 trait Statusable
 {
     public static $statuses = [
@@ -42,7 +44,7 @@ trait Statusable
      *      Customer::DELETED
      *  ]];
      */
-    public function scopeStatus($query, $statuses)
+    public function scopeWithStatus($query, $statuses)
     {
         $operation = '!='; // Default we include only
 
@@ -80,19 +82,34 @@ trait Statusable
 
     public function onBit($status)
     {
-        $this->status |= $status;
+        $column = config('status.column', 'status');
+        $this->$column |= $status;
         return $this;
     }
 
     public function offBit($status)
     {
-        $this->status &= ~$status;
+        $column = config('status.column', 'status');
+        $this->$column &= ~$status;
         return $this;
     }
 
-    public function flipBit()
+    public function statuses($filter = null)
     {
+        $response = new StatusCollection;
+        $statuses = static::$statuses;
 
+        if(!is_null($filter)) {
+            $statuses = $statuses->only($filter);
+        }
+
+        $statuses->each(function ($value, $status) use ($response) {
+            if($this->hasStatus($status)) {
+                $response->push($value);
+            }
+        });
+
+        return $response;
     }
 
     /**
@@ -102,7 +119,9 @@ trait Statusable
      */
     public function hasStatus($status)
     {
-        return ($this->status & $status) == $status;
+        $column = config('status.column', 'status');
+        // Just make sure we return true or false incase someone tries to do ===
+        return (bool)($this->$column & $status);
     }
 
 }
