@@ -18,7 +18,7 @@ class StatusCollection extends Collection
 	public function toClassNames()
 	{
 		return $this->transform(function($item){
-			return snake_case(strtolower($item));
+			return str_slug(strtolower($item), '-');
 		})->implode(' ');
 	}
 
