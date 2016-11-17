@@ -2,8 +2,6 @@
 
 namespace Baytek\LaravelStatusBit;
 
-use App\StatusHistory;
-
 class StatusObserver
 {
 	public function saved($model)
