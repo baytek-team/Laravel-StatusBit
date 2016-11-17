@@ -8,7 +8,9 @@ class StatusObserver
 {
 	public function saved($model)
 	{
-		if($model->getOriginal('status') != $model->status) {
+		$column = config('status.column', 'status');
+
+		if($model->getOriginal('status') != $model->$column) {
 
 			$class = class_basename(get_class($model));
 

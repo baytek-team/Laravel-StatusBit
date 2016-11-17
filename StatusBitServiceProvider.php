@@ -14,8 +14,11 @@ class StatusBitServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        // Event::listen('SomeEvent', 'SomeEventHandler');
-        //
+        collect(config('status.history_models'))->each(function ($model)
+        {
+            forward_static_call([$model, 'observe'], StatusObserver::class);
+        });
+
         $this->publishes([
             __DIR__.'/config/status.php' => config_path('status.php'),
         ]);
