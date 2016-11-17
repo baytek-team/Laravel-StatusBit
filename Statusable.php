@@ -117,7 +117,7 @@ trait Statusable
 
         $statuses->each(function ($value, $status) use ($response) {
             if($this->hasStatus($status)) {
-                $response->push($value);
+                $response->put($status, $value);
             }
         });
 
@@ -132,6 +132,7 @@ trait Statusable
     public function hasStatus($status)
     {
         $column = config('status.column', 'status');
+
         // Just make sure we return true or false incase someone tries to do ===
         return (bool)($this->$column & $status);
     }

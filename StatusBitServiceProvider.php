@@ -28,7 +28,6 @@ class StatusBitServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        //
     }
 
 }
