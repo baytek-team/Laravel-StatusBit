@@ -15,13 +15,15 @@ namespace Baytek\LaravelStatusBit;
 
 trait Statusable
 {
+    public $statusComment = '';
+
     public static $statuses = [
-        0 => 'Zero Status',
+        0              => 'No Status',
         self::ARCHIVED => 'Archived',
         self::DISABLED => 'Disabled',
-        self::DELETED => 'Deleted',
-        self::REMOVED => 'Removed',
-        self::DRAFT => 'Draft',
+        self::DELETED  => 'Deleted',
+        self::REMOVED  => 'Removed',
+        self::DRAFT    => 'Draft',
         self::FEATURED => 'Featured',
     ];
 

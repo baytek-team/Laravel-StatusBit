@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class StatusHistory extends Model
 {
-    protected $fillable = ['type_id', 'type', 'status'];
+    protected $fillable = ['type_id', 'type', 'status', 'comment'];
 
     public function __construct(array $attributes = [])
     {
