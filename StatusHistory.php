@@ -16,4 +16,23 @@ class StatusHistory extends Model
     	parent::__construct($attributes);
     }
 
+    public function scopeGetHistory($query, $model)
+    {
+    	$class = class_basename(get_class($model));
+
+    	return $query
+    		->where('type_id', $model->id)
+    		->where('type', $class);
+    }
+
+    public function scopeGetCurrent($query, $model)
+    {
+    	$class = class_basename(get_class($model));
+
+    	return $query
+    		->where('type_id', $model->id)
+    		->where('type', $class)
+    		->whereRaw("(status & {$model->status}) != 0");
+    }
+
 }
