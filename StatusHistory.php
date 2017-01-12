@@ -35,4 +35,15 @@ class StatusHistory extends Model
     		->whereRaw("(status & {$model->status}) != 0");
     }
 
+    // History where model has supplied status bit set
+    public function scopeGetWithStatus($query, $model, $status)
+    {
+        $class = class_basename(get_class($model));
+
+        return $query
+            ->where('type_id', $model->id)
+            ->where('type', $class)
+            ->whereRaw("(status & {$status}) != 0");
+    }
+
 }

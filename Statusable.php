@@ -139,4 +139,17 @@ trait Statusable
         return (bool)($this->$column & $status);
     }
 
+    /**
+     * Checks the status history and returns a collection of StatusHistory objects where the supplied status bit has been on.
+     * @param  int         $status   The status to check for. Up to 2^32
+     * @return Collection            Collection of StatusHistory objects.
+     */
+    public function getHistoryOfStatus($status)
+    {
+        $column = config('status.column', 'status');
+
+        // Return collection of mathing StatusHistory objects
+        return (new StatusHistory)->getWithStatus($this, $status)->get();
+    }
+
 }
