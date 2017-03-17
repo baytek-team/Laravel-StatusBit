@@ -19,8 +19,8 @@ interface StatusInterface {
     const DELETED  = 4;  // 2^2
     const DRAFT    = 8;  // 2^3
     const FEATURED = 16; // 2^4
-    // const SYS_RESERVED_TBD_1 = 32;  // 2^5
-    // const SYS_RESERVED_TBD_2 = 64;  // 2^6
+    const APPROVED = 32; // 2^5
+    const DECLINED = 64; // 2^6
     // const SYS_RESERVED_TBD_3 = 128; // 2^7
     // const SYS_RESERVED_TBD_4 = 256; // 2^8
 

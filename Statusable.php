@@ -59,15 +59,44 @@ trait Statusable
      *      Customer::DELETED
      *  ]];
      */
-    public function scopeWithStatus($query, $statuses)
+    // public function scopeWithStatus($query, $statuses)
+    // {
+    //     $operation = '!='; // Default we include only
+
+    //     // Check if the arguments have been passed straight up
+    //     if(count(func_get_args()) > 2) {
+    //         $statuses = func_get_args();
+    //         array_shift($statuses);
+    //     }
+
+    //     foreach((array)$statuses as $key => $status)
+    //     {
+    //         // Only keep the keys we find relevant
+    //         if(is_array($status))
+    //         {
+    //             // Sum the bits
+    //             $status = array_sum($status);
+
+    //             // Change the operator when exclusion
+    //             if($key == 'exclude')
+    //             {
+    //                 $operation = '=';
+    //             }
+    //         }
+
+    //         // SQL equation string
+    //         $equation = config('status.column', 'status') . " & $status";
+
+    //         // Query Builder
+    //         $query = $query->whereRaw($equation . $operation . 0);
+    //     }
+
+    //     return $query;
+    // }
+
+    public function scopeWithStatus($query, $table, ...$statuses)
     {
         $operation = '!='; // Default we include only
-
-        // Check if the arguments have been passed straight up
-        if(count(func_get_args()) > 2) {
-            $statuses = func_get_args();
-            array_shift($statuses);
-        }
 
         foreach((array)$statuses as $key => $status)
         {
@@ -86,6 +115,10 @@ trait Statusable
 
             // SQL equation string
             $equation = config('status.column', 'status') . " & $status";
+
+            if($table) {
+                $equation = env('DB_PREFIX') . $table.'.'.$equation;
+            }
 
             // Query Builder
             $query = $query->whereRaw($equation . $operation . 0);
