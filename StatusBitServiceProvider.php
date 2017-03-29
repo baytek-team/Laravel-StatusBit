@@ -15,8 +15,7 @@ class StatusBitServiceProvider extends ServiceProvider {
     public function boot()
     {
         if(config('status.use_history')) {
-            collect(config('status.history_models'))->each(function ($model)
-            {
+            collect(config('status.history_models'))->each(function ($model) {
                 forward_static_call([$model, 'observe'], StatusObserver::class);
             });
         }

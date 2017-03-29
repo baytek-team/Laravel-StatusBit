@@ -14,8 +14,8 @@ class StatusObserver
 
 			$statuses = $model->getOriginal($column) ^ $model->$column;
 
-			$model::$statuses->keys()->each(function ($status) use ($model, $class, $statuses)
-			{
+			$model::$statuses->keys()->each(function ($status) use ($model, $class, $statuses) {
+
 				if(($status & $statuses) != 0) {
 
 					$history = new StatusHistory([
