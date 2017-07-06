@@ -14,13 +14,15 @@ namespace Baytek\LaravelStatusBit;
 interface StatusInterface {
 
 	// System Reserved status bits - upto 256
-    const ARCHIVED = 1;  // 2^0
-    const DISABLED = 2;  // 2^1
-    const DELETED  = 4;  // 2^2
-    const DRAFT    = 8;  // 2^3
-    const FEATURED = 16; // 2^4
-    const APPROVED = 32; // 2^5
-    const DECLINED = 64; // 2^6
+    const ARCHIVED = 1;     // 2^0
+    const DISABLED = 2;     // 2^1
+    const DELETED  = 4;     // 2^2
+    const DRAFT    = 8;     // 2^3
+    const FEATURED = 16;    // 2^4
+    const APPROVED = 32;    // 2^5
+    const DECLINED = 64;    // 2^6
+    const RESTRICTED = 128; // 2^7 This is another term for private as it is a reserved keyword
+
     // const SYS_RESERVED_TBD_3 = 128; // 2^7
     // const SYS_RESERVED_TBD_4 = 256; // 2^8
 
