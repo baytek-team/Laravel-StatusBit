@@ -4,8 +4,10 @@ namespace Baytek\LaravelStatusBit;
 
 use Event;
 use Illuminate\Support\ServiceProvider;
+use Baytek\LaravelStatusBit\StatusMessages;
 
-class StatusBitServiceProvider extends ServiceProvider {
+class StatusBitServiceProvider extends ServiceProvider
+{
 
     /**
      * Perform post-registration booting of services.
@@ -32,6 +34,8 @@ class StatusBitServiceProvider extends ServiceProvider {
      */
     public function register()
     {
+        // $this->app->singleton(StatusMessages::class, function ($app) {
+        //     return new StatusMessages($app);
+        // });
     }
-
 }

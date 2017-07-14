@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Baytek\LaravelStatusBit;
+namespace Baytek\LaravelStatusBit\Interfaces;
 
-interface StatusInterface {
-
+interface StatusInterface
+{
 	// System Reserved status bits - upto 256
     const ARCHIVED = 1;     // 2^0
     const DISABLED = 2;     // 2^1
@@ -34,6 +34,5 @@ interface StatusInterface {
     // TODO: Write a protected method of models adding statuses so they don't use the system reserved statuses
 
 	// public function scopeStatus($query, $status);
-
 }
 

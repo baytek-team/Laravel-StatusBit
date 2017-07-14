@@ -12,32 +12,37 @@
 namespace Baytek\LaravelStatusBit;
 
 // use StatusCollection;
+use Illuminate\Support\Collection;
 
 trait Statusable
 {
     public $statusComment = '';
 
-    public static $statuses = [
-        0              => 'No Status',
-        self::ARCHIVED => 'Archived',
-        self::DISABLED => 'Disabled',
-        self::DELETED  => 'Deleted',
-        self::REMOVED  => 'Removed',
-        self::DRAFT    => 'Draft',
-        self::FEATURED => 'Featured',
-    ];
+    public $statusMessageClass = StatusMessages::class;
+
+    private $statusMessageInstance;
+
+    public static $statuses = [];
 
     public function __construct($attributes = [])
     {
+        $msg = $this->statusMessageInstance = new $this->statusMessageClass;
+
+        $this::$statuses = (new Collection)
+            ->union($this->statusMessageInstance->messages());
+
         if(property_exists($this, 'statuses')) {
-            $this::$statuses = collect(static::$statuses);
-        }
-        else {
-            $this::$statuses = collect(parent::$statuses)
-                ->union(collect(static::$statuses));
+            $this::$statuses = $this::$statuses->union(static::$statuses);
         }
 
         parent::__construct($attributes);
+    }
+
+
+    function setStatusMessage($key, $message)
+    {
+        $this::$statuses[$key] = $message;
+        return $this;
     }
 
     /**
