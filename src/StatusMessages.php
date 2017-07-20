@@ -15,16 +15,16 @@ class StatusMessages implements Interfaces\StatusMessageInterface, Interfaces\St
     public function __construct()
     {
         static::$statuses = new Collection([
-            0                  => __('No Status'),
-            static::ARCHIVED   => __('Archived'),
-            static::DISABLED   => __('Disabled'),
-            static::DELETED    => __('Deleted'),
-            static::REMOVED    => __('Removed'),
-            static::DRAFT      => __('Draft'),
-            static::FEATURED   => __('Featured'),
-            static::APPROVED   => __('Approved'),
-            static::DECLINED   => __('Declined'),
-            static::RESTRICTED => __('Restricted'),
+            0                  => 'No Status',
+            static::ARCHIVED   => 'Archived',
+            static::DISABLED   => 'Disabled',
+            static::DELETED    => 'Deleted',
+            static::REMOVED    => 'Removed',
+            static::DRAFT      => 'Draft',
+            static::FEATURED   => 'Featured',
+            static::APPROVED   => 'Approved',
+            static::DECLINED   => 'Declined',
+            static::RESTRICTED => 'Restricted',
         ]);
     }
 
