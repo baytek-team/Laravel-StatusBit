@@ -27,12 +27,18 @@ trait Statusable
     public function __construct($attributes = [])
     {
         $msg = $this->statusMessageInstance = new $this->statusMessageClass;
+        
+        // Temporarily store the initial model custom statuses to merge with message instance
+        $defaultStatuses = [];
+        if(property_exists($this, 'statuses')) {
+            $defaultStatuses = static::$statuses;
+        }
 
         $this::$statuses = (new Collection)
             ->union($this->statusMessageInstance->messages());
 
-        if(property_exists($this, 'statuses')) {
-            $this::$statuses = $this::$statuses->union(static::$statuses);
+        if(!empty($defaultStatuses)) {
+            $this::$statuses = $this::$statuses->union($defaultStatuses);
         }
 
         parent::__construct($attributes);
