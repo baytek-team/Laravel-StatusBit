@@ -26,14 +26,10 @@ trait Statusable
 
     public function __construct($attributes = [])
     {
-        $msg = $this->statusMessageInstance = new $this->statusMessageClass;
-
-        $this::$statuses = (new Collection)
-            ->union($this->statusMessageInstance->messages());
-
-        if(property_exists($this, 'statuses')) {
-            $this::$statuses = $this::$statuses->union(static::$statuses);
+        if(in_array('statusMessageClass', $attributes)) {
+            $this->statusMessageClass = $attributes['statusMessageClass'];
         }
+        $msg = $this->setStatusMessageClass($this->statusMessageClass);
 
         parent::__construct($attributes);
     }
@@ -43,6 +39,27 @@ trait Statusable
     {
         $this::$statuses[$key] = $message;
         return $this;
+    }
+
+
+    /**
+     * Update the status message class used
+     * @param  statusMessageClass class path that needs to be of type StatusMessages
+     * @since  1.2.3
+     * @see.   Baytek\LaravelStatusBit\StatusMessages
+     */
+    public function setStatusMessageClass($statusMessageClass)
+    {
+        $this->statusMessageClass = $statusMessageClass;
+        $this->statusMessageInstance = new $this->statusMessageClass;
+
+        // Temporarily store the initial model custom statuses to merge with message instance
+        if(property_exists($this, 'statuses')) {
+            $this::$statuses = $this->statusMessageInstance->messages()->union(static::$statuses);
+        }
+        else {
+            $this::$statuses = $this->statusMessageInstance->messages();
+        }
     }
 
     /**
