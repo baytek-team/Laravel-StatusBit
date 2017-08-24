@@ -81,7 +81,7 @@ trait Statusable
      *      Customer::DELETED
      *  ]];
      */
-    public function scopeWithStatus($query, $table, ...$statuses)
+    public function scopeWithStatus($query, ...$statuses)
     {
         $operation = '!='; // Default we include only
 
@@ -105,11 +105,9 @@ trait Statusable
             }
 
             // SQL equation string
-            $equation = config('status.column', 'status') . " & $status";
+            $equation = config('status.column', 'status')." & $status";
 
-            if($table) {
-                $equation = env('DB_PREFIX') . $table.'.'.$equation;
-            }
+            $equation = env('DB_PREFIX').$this->getTable().'.'.$equation;
 
             // Query Builder
             $query = $query->whereRaw($equation . $operation . 0);
