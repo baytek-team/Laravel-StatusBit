@@ -16,24 +16,53 @@ use Illuminate\Support\Collection;
 
 trait Statusable
 {
+    // Used when saving to record why a status was changed.
     public $statusComment = '';
 
-    public $statusMessageClass = StatusMessages::class;
-
-    private $statusMessageInstance;
-
+    //
     public static $statuses = [];
 
     public function __construct($attributes = [])
     {
-        if(in_array('statusMessageClass', $attributes)) {
-            $this->statusMessageClass = $attributes['statusMessageClass'];
+        if(!property_exists($this, 'append')) {
+            $this->appends = [];
         }
-        $msg = $this->setStatusMessageClass($this->statusMessageClass);
+
+        array_push($this->appends, 'statuses');
 
         parent::__construct($attributes);
     }
 
+    /**
+     * Update the status message class used
+     * @param  statusMessageClass class path that needs to be of type StatusMessages
+     * @since  1.4.0
+     * @see.   Baytek\LaravelStatusBit\StatusMessages
+     */
+    public static function bootStatusable()
+    {
+        $modelMessages = method_exists(static::class, 'statusMessages')
+            ? forward_static_call([static::class, 'statusMessages'])
+            : collect([]);
+
+        if($modelMessages instanceof StatusMessages || $modelMessages instanceof Interfaces\StatusMessageInterface) {
+            $messages = $modelMessages->messages();
+        }
+        else if($modelMessages instanceof Collection) {
+            $messages = $modelMessages;
+        }
+        else if(is_array($modelMessages)) {
+            $messages = collect($modelMessages);
+        }
+        else if(is_string($modelMessages) && class_exists($modelMessages)) {
+            $messages = (new $modelMessages)->messages();
+        }
+        else {
+            throw new \Exception('Type Error.');
+        }
+
+        static::$statuses = (new StatusMessages)->messages()->union($messages);
+    }
 
     function setStatusMessage($key, $message)
     {
@@ -41,26 +70,11 @@ trait Statusable
         return $this;
     }
 
-
-    /**
-     * Update the status message class used
-     * @param  statusMessageClass class path that needs to be of type StatusMessages
-     * @since  1.2.3
-     * @see.   Baytek\LaravelStatusBit\StatusMessages
-     */
-    public function setStatusMessageClass($statusMessageClass)
+    public function getStatusesAttribute($value)
     {
-        $this->statusMessageClass = $statusMessageClass;
-        $this->statusMessageInstance = new $this->statusMessageClass;
-
-        // Temporarily store the initial model custom statuses to merge with message instance
-        if(property_exists($this, 'statuses')) {
-            $this::$statuses = $this->statusMessageInstance->messages()->union(static::$statuses);
-        }
-        else {
-            $this::$statuses = $this->statusMessageInstance->messages();
-        }
+        return $this->statuses()->toClassNamesArray();
     }
+
 
     /**
      * @param Builder $query Elequont query builder
@@ -157,8 +171,12 @@ trait Statusable
     {
         $column = config('status.column', 'status');
 
+        // Zero is not null, so there is a condition for this
+        if((int)$this->attributes[$column] === 0 && $status === 0)
+            return true;
+
         // Just make sure we return true or false incase someone tries to do ===
-        return (bool)($this->$column & $status);
+        return (bool)($this->attributes[$column] & $status);
     }
 
     /**

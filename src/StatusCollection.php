@@ -15,15 +15,20 @@ use Illuminate\Support\Collection;
 
 class StatusCollection extends Collection
 {
-	public function toClassNames()
+	public function toClassNamesArray()
 	{
 		return $this->transform(function ($item) {
 			return str_slug(strtolower($item), '-');
-		})->implode(' ');
+		});
 	}
 
 	public function toFormatted()
 	{
 		return $this->implode(', ');
+	}
+
+	public function toClassNames()
+	{
+		return $this->toClassNamesArray()->implode(' ');
 	}
 }
