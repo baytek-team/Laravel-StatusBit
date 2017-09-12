@@ -24,7 +24,7 @@ trait Statusable
 
     public function __construct($attributes = [])
     {
-        if(!property_exists($this, 'append')) {
+        if(!property_exists($this, 'appends')) {
             $this->appends = [];
         }
 
