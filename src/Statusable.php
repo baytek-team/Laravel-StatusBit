@@ -171,6 +171,10 @@ trait Statusable
     {
         $column = config('status.column', 'status');
 
+        if(!array_key_exists($column, $this->attributes)) {
+            return false;
+        }
+
         // Zero is not null, so there is a condition for this
         if((int)$this->attributes[$column] === 0 && $status === 0)
             return true;
