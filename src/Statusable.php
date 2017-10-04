@@ -29,6 +29,7 @@ trait Statusable
         if(in_array('statusMessageClass', $attributes) && isset($attributes['statusMessageClass'])) {
             $this->statusMessageClass = $attributes['statusMessageClass'];
         }
+
         $msg = $this->setStatusMessageClass($this->statusMessageClass);
 
         parent::__construct($attributes);
