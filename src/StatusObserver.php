@@ -1,6 +1,6 @@
 <?php
 
-namespace Baytek\LaravelStatusBit;
+namespace Baytek\Laravel\StatusBit;
 
 class StatusObserver
 {

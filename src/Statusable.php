@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Baytek\LaravelStatusBit;
+namespace Baytek\Laravel\StatusBit;
 
 // use StatusCollection;
 use Illuminate\Support\Collection;
@@ -37,7 +37,7 @@ trait Statusable
      * Update the status message class used
      * @param  statusMessageClass class path that needs to be of type StatusMessages
      * @since  1.4.0
-     * @see.   Baytek\LaravelStatusBit\StatusMessages
+     * @see.   Baytek\Laravel\StatusBit\StatusMessages
      */
     public static function bootStatusable()
     {

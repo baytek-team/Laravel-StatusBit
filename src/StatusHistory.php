@@ -1,6 +1,6 @@
 <?php
 
-namespace Baytek\LaravelStatusBit;
+namespace Baytek\Laravel\StatusBit;
 
 use Illuminate\Database\Eloquent\Model;
 

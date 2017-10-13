@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Baytek\LaravelStatusBit;
+namespace Baytek\Laravel\StatusBit;
 
 use Illuminate\Support\Collection;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace Baytek\LaravelStatusBit;
+namespace Baytek\Laravel\StatusBit;
 
 use Event;
 use Illuminate\Support\ServiceProvider;
-use Baytek\LaravelStatusBit\StatusMessages;
+use Baytek\Laravel\StatusBit\StatusMessages;
 
 class StatusBitServiceProvider extends ServiceProvider
 {
