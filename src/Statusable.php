@@ -17,6 +17,7 @@ use Illuminate\Support\Collection;
 trait Statusable
 {
     // Used when saving to record why a status was changed.
+    // Note: Next time write better comments. Above doesn't make sense.
     public $statusComment = '';
 
     //
@@ -35,6 +36,7 @@ trait Statusable
 
     /**
      * Update the status message class used
+     *
      * @param  statusMessageClass class path that needs to be of type StatusMessages
      * @since  1.4.0
      * @see.   Baytek\Laravel\StatusBit\StatusMessages
@@ -195,5 +197,4 @@ trait Statusable
         // Return collection of mathing StatusHistory objects
         return (new StatusHistory)->getWithStatus($this, $status)->get();
     }
-
 }
