@@ -22,7 +22,7 @@ After that, run composer install to install the package.
 Next, add the `StatusBit` trait to each of your statusable model definition:
 
 ```php
-use Baytek\LaravelStatusBit\Statusable;
+use Baytek\Laravel\StatusBit\Statusable;
 
 class Post extends Eloquent
 {

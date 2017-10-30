@@ -17,11 +17,10 @@ use Illuminate\Support\Collection;
 trait Statusable
 {
     // Used when saving to record why a status was changed.
-    // Note: Next time write better comments. Above doesn't make sense.
     public $statusComment = '';
 
     //
-    public static $statuses = [];
+    public $statuses = [];
 
     public function __construct($attributes = [])
     {
@@ -31,18 +30,6 @@ trait Statusable
 
         array_push($this->appends, 'statuses');
 
-        parent::__construct($attributes);
-    }
-
-    /**
-     * Update the status message class used
-     *
-     * @param  statusMessageClass class path that needs to be of type StatusMessages
-     * @since  1.4.0
-     * @see.   Baytek\Laravel\StatusBit\StatusMessages
-     */
-    public static function bootStatusable()
-    {
         $modelMessages = method_exists(static::class, 'statusMessages')
             ? forward_static_call([static::class, 'statusMessages'])
             : collect([]);
@@ -63,10 +50,24 @@ trait Statusable
             throw new \Exception('Type Error.');
         }
 
-        static::$statuses = (new StatusMessages)->messages()->union($messages);
+        $this->statuses = (new StatusMessages)->messages()->union($messages);
+
+        parent::__construct($attributes);
     }
 
-    function setStatusMessage($key, $message)
+    /**
+     * Update the status message class used
+     *
+     * @param  statusMessageClass class path that needs to be of type StatusMessages
+     * @since  1.4.0
+     * @see.   Baytek\Laravel\StatusBit\StatusMessages
+     */
+    // public static function bootStatusable()
+    // {
+
+    // }
+
+    public function setStatusMessage($key, $message)
     {
         $this::$statuses[$key] = $message;
         return $this;
@@ -149,7 +150,7 @@ trait Statusable
     public function statuses($filter = null)
     {
         $response = new StatusCollection;
-        $statuses = static::$statuses;
+        $statuses = $this->statuses;
 
         if(!is_null($filter)) {
             $statuses = $statuses->only($filter);
