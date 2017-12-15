@@ -24,7 +24,7 @@ trait Statusable
 
     public function __construct($attributes = [])
     {
-        if(!property_exists($this, 'appends')) {
+        if (!property_exists($this, 'appends')) {
             $this->appends = [];
         }
 
@@ -34,19 +34,15 @@ trait Statusable
             ? forward_static_call([static::class, 'statusMessages'])
             : collect([]);
 
-        if($modelMessages instanceof StatusMessages || $modelMessages instanceof Interfaces\StatusMessageInterface) {
+        if ($modelMessages instanceof StatusMessages || $modelMessages instanceof Interfaces\StatusMessageInterface) {
             $messages = $modelMessages->messages();
-        }
-        else if($modelMessages instanceof Collection) {
+        } elseif ($modelMessages instanceof Collection) {
             $messages = $modelMessages;
-        }
-        else if(is_array($modelMessages)) {
+        } elseif (is_array($modelMessages)) {
             $messages = collect($modelMessages);
-        }
-        else if(is_string($modelMessages) && class_exists($modelMessages)) {
+        } elseif (is_string($modelMessages) && class_exists($modelMessages)) {
             $messages = (new $modelMessages)->messages();
-        }
-        else {
+        } else {
             throw new \Exception('Type Error.');
         }
 
@@ -62,10 +58,9 @@ trait Statusable
      * @since  1.4.0
      * @see.   Baytek\Laravel\StatusBit\StatusMessages
      */
-    // public static function bootStatusable()
-    // {
-
-    // }
+    public static function bootStatusable()
+    {
+    }
 
     public function setStatusMessage($key, $message)
     {
@@ -102,21 +97,18 @@ trait Statusable
     {
         $operation = '!='; // Default we include only
 
-        if(count($statuses) == 1) {
+        if (count($statuses) == 1) {
             $statuses = $statuses[0];
         }
 
-        foreach((array)$statuses as $key => $status)
-        {
-            // Only keep the keys we find relevant
-            if(is_array($status))
-            {
-                // Sum the bits
+        foreach ((array)$statuses as $key => $status) {
+        // Only keep the keys we find relevant
+            if (is_array($status)) {
+            // Sum the bits
                 $status = array_sum($status);
 
                 // Change the operator when exclusion
-                if($key == 'exclude')
-                {
+                if ($key == 'exclude') {
                     $operation = '=';
                 }
             }
@@ -152,12 +144,12 @@ trait Statusable
         $response = new StatusCollection;
         $statuses = $this->statuses;
 
-        if(!is_null($filter)) {
+        if (!is_null($filter)) {
             $statuses = $statuses->only($filter);
         }
 
         $statuses->each(function ($value, $status) use ($response) {
-            if($this->hasStatus($status)) {
+            if ($this->hasStatus($status)) {
                 $response->put($status, $value);
             }
         });
@@ -174,13 +166,14 @@ trait Statusable
     {
         $column = config('status.column', 'status');
 
-        if(!array_key_exists($column, $this->attributes)) {
+        if (!array_key_exists($column, $this->attributes)) {
             return false;
         }
 
         // Zero is not null, so there is a condition for this
-        if((int)$this->attributes[$column] === 0 && $status === 0)
+        if ((int)$this->attributes[$column] === 0 && $status === 0) {
             return true;
+        }
 
         // Just make sure we return true or false incase someone tries to do ===
         return (bool)($this->attributes[$column] & $status);
