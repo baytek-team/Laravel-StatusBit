@@ -8,7 +8,6 @@ class StatusMessages implements Interfaces\StatusMessageInterface, Interfaces\St
 {
 	/**
 	 * List of default messages
-	 * @var [type]
 	 */
 	public static $statuses;
 
@@ -29,8 +28,8 @@ class StatusMessages implements Interfaces\StatusMessageInterface, Interfaces\St
     }
 
     /**
-     * [messages description]
-     * @return [type] [description]
+     * Get the collection of status messages
+     * @return Illuminate\Support\Collection Collection of messages
      */
     public function messages()
     {
