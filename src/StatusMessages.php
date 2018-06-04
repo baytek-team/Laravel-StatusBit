@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Laravel StatusBit package.
+ *
+ * (c) Yvon Viger <yvon@baytek.ca>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Baytek\Laravel\StatusBit;
 
 use Illuminate\Support\Collection;
@@ -8,10 +17,13 @@ class StatusMessages implements Interfaces\StatusMessageInterface, Interfaces\St
 {
 	/**
 	 * List of default messages
-	 * @var [type]
+	 * @var Illuminate\Support\Collection
 	 */
 	public static $statuses;
 
+    /**
+     * Status message constructor
+     */
     public function __construct()
     {
         static::$statuses = new Collection([
@@ -29,8 +41,8 @@ class StatusMessages implements Interfaces\StatusMessageInterface, Interfaces\St
     }
 
     /**
-     * [messages description]
-     * @return [type] [description]
+     * Get the list of StatusMessages
+     * @return Illuminate\Support\Collection Collection of statuses
      */
     public function messages()
     {

@@ -15,6 +15,10 @@ use Illuminate\Support\Collection;
 
 class StatusCollection extends Collection
 {
+	/**
+	 * Convert collection to array of CSS compatible class names
+	 * @return array Collection of class names
+	 */
 	public function toClassNamesArray()
 	{
 		return $this->transform(function ($item) {
@@ -22,11 +26,19 @@ class StatusCollection extends Collection
 		});
 	}
 
+	/**
+	 * Convert to comma separated string
+	 * @return string Comma separated statuses
+	 */
 	public function toFormatted()
 	{
 		return $this->implode(', ');
 	}
 
+	/**
+	 * Convert to space separated string class names
+	 * @return string Space separated CSS class names
+	 */
 	public function toClassNames()
 	{
 		return $this->toClassNamesArray()->implode(' ');

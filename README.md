@@ -16,7 +16,6 @@ After that, run composer install to install the package.
 
 ## Configuration
 
-
 #### Model Setup
 
 Next, add the `StatusBit` trait to each of your statusable model definition:

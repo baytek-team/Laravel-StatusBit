@@ -11,7 +11,6 @@
 
 namespace Baytek\Laravel\StatusBit;
 
-// use StatusCollection;
 use Illuminate\Support\Collection;
 
 trait Statusable
