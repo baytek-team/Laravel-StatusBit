@@ -20,8 +20,8 @@ class CreateStatusHistoryTable extends Migration
             $table->integer('type_id')->nullable();
             $table->string('type')->nullable();
             $table->integer('status')->nullable();
-            $table->text('comment')->nullable();
             $table->boolean('state')->nullable();
+            $table->text('comment')->nullable();
         });
     }
 
