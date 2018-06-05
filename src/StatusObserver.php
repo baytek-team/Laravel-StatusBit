@@ -20,7 +20,7 @@ class StatusObserver
 			$statuses = $model->getOriginal($column) ^ $model->$column;
 
 			// Loop through the set statuses
-			$model::$statuses->keys()->each(function ($status) use ($model, $class, $statuses) {
+			$model::$statuses->keys()->each(function ($status) use ($model, $class, $statuses, $column) {
 
 				// Ensure that the bit is set
 				if(($status & $statuses) != 0) {
