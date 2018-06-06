@@ -174,7 +174,8 @@ trait Statusable
         $column = config('status.column', 'status');
 
         // Return collection of mathing StatusHistory objects
-        return (new StatusHistory)->getWithStatus($this, $status)->get();
+        $table = class_basename(get_class($this));
+        return (new StatusHistory)->getHistoryOfStatus($table, $status)->get();
     }
 
 }
