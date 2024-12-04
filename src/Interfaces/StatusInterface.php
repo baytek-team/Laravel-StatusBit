@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Baytek\LaravelStatusBit\Interfaces;
+namespace Baytek\Laravel\StatusBit\Interfaces;
 
 interface StatusInterface
 {
