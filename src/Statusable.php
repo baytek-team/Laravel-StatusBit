@@ -121,7 +121,10 @@ trait Statusable
             // SQL equation string
             $equation = config('status.column', 'status')." & $status";
 
-            $equation = env('DB_PREFIX').$this->getTable().'.'.$equation;
+            // Retrieve the database prefix from config rather than env
+            // $equation = env('DB_PREFIX').$this->getTable().'.'.$equation;
+            $prefix = config('database.connections.'.config('database.default').'.prefix', '');
+            $equation = $prefix.$this->getTable().'.'.$equation;
 
             // Query Builder
             $query = $query->whereRaw($equation . $operation . 0);
