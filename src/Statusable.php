@@ -109,7 +109,7 @@ trait Statusable
             $equation = config('status.column', 'status') . " & $status";
 
             if($table) {
-                $equation = env('DB_PREFIX') . $table.'.'.$equation;
+                $equation = \DB::getTablePrefix() . $table.'.'.$equation;
             }
 
             // Query Builder

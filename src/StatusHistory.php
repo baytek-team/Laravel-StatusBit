@@ -48,7 +48,7 @@ class StatusHistory extends Model
     // History where model has supplied status bit set
     public function scopeGetWithStatus($query, $table, $status)
     {
-        $prefix = env('DB_PREFIX');
+        $prefix = \DB::getTablePrefix();
 
         return $query
             ->where('type', title_case(str_singular($table)))
